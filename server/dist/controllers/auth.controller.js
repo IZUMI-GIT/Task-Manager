@@ -108,7 +108,7 @@ const postSignin = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
 });
 exports.postSignin = postSignin;
 const postLogout = (req, res) => {
-    res.cookie("token", "");
+    res.clearCookie("token");
     res.json({
         message: "Logged out"
     });

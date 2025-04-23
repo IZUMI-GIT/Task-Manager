@@ -1,4 +1,5 @@
 import { postLogout, postSignin, postSignup } from "../controllers/auth.controller";
+import userMiddleware from "../middlewares/authmiddleware";
 
 const { Router } = require("express")
 
@@ -6,8 +7,8 @@ const router = Router();
 
 router.post("/signup", postSignup)
 
-router.get("/signin", postSignin)
+router.post("/signin", postSignin)
 
-router.post("/logout", postLogout)
+router.post("/logout",userMiddleware, postLogout)
 
 export default router;
