@@ -1,7 +1,7 @@
-import { Router } from "express";
 import userMiddleware from "../middlewares/authmiddleware";
 import { postBoard } from "../controllers/board.controller";
 
+const { Router } = require("express")
 const router = Router();
 
 router.post("/board", userMiddleware, postBoard);

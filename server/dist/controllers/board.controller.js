@@ -14,30 +14,39 @@ const client_1 = require("../../prisma/prisma/generated/client");
 const prisma = new client_1.PrismaClient();
 const postBoard = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { userId, title, lists } = req.body;
-    const boardData = yield prisma.board.create({
-        data: {
-            title,
-            userId,
-            lists: {
-                create: [
-                    { title: "To-Do", position: 0 },
-                    { title: "On hold", position: 1 },
-                    { title: "Done", position: 2 }
-                ],
-            }
-        },
-        include: { lists: true }
-    });
-    if (!boardData) {
+    try {
+        const boardData = yield prisma.board.create({
+            data: {
+                title,
+                userId,
+                lists: {
+                    create: [
+                        { title: "To-Do", position: 0 },
+                        { title: "On hold", position: 1 },
+                        { title: "Done", position: 2 }
+                    ],
+                }
+            },
+            include: { lists: true }
+        });
+        if (!boardData) {
+            res.status(500).json({
+                "message": "Board not created"
+            });
+        }
+        else {
+            res.status(200).json({
+                "message": `Board ${boardData.title} is created`,
+                "data": boardData
+            });
+        }
+    }
+    catch (e) {
         res.status(500).json({
-            "message": "Board not created"
+            message: "Error creating board",
+            error: e
         });
     }
-    else {
-        res.status(200).json({
-            "message": `Board ${boardData.title} is created`,
-            "data": boardData
-        });
-    }
+    return;
 });
 exports.postBoard = postBoard;

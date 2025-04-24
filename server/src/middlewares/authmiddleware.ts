@@ -15,9 +15,7 @@ function userMiddleware(req :Request , res : Response, next : NextFunction) {
     const jwtToken = token?.split(";").find(c => c.trim().startsWith("token="))?.split("=")[1]
 
     try{
-        console.log("Hello")
         let decoded =  jwt.verify(jwtToken, jwtSecret) as JwtPayload;
-        console.log(decoded)
 
         if(!decoded.userId){
             res.status(403).json({
@@ -25,9 +23,6 @@ function userMiddleware(req :Request , res : Response, next : NextFunction) {
         })
         }
         req.body.userId = decoded.userId;
-        res.json({
-            "userId" : decoded.userId
-        })
         next();
     }catch(e){
         res.json({

@@ -11,30 +11,38 @@ export const postBoard = async (req : Request, res : Response) => {
         lists? : {title : string}[]
     } = req.body
 
-    const boardData =  await prisma.board.create({
-        data : {
-            title,
-            userId,
-            lists : {
-                create : [
-                    {title : "To-Do", position : 0},
-                    {title : "On hold", position : 1},
-                    {title : "Done", position : 2}
-            ],
-            }
-        },
-        include : {lists : true}
-    })
-
-    if(!boardData){
-        res.status(500).json({
-                "message" : "Board not created"
-            })
-    }else{
-        res.status(200).json({
-            "message" : `Board ${boardData.title} is created`,
-            "data" : boardData
+    try {
+        const boardData =  await prisma.board.create({
+            data : {
+                title,
+                userId,
+                lists : {
+                    create : [
+                        {title : "To-Do", position : 0},
+                        {title : "On hold", position : 1},
+                        {title : "Done", position : 2}
+                ],
+                }
+            },
+            include : {lists : true}
         })
+
+        if(!boardData){
+            res.status(500).json({
+                    "message" : "Board not created"
+                })
+        }else{
+            res.status(200).json({
+                "message" : `Board ${boardData.title} is created`,
+                "data" : boardData
+            })
+        }
+    } catch(e) {
+        res.status(500).json({
+            message: "Error creating board",
+            error: e
+        });
     }
 
+    return;
 }

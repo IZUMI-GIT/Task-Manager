@@ -15,18 +15,13 @@ function userMiddleware(req, res, next) {
     console.log(token);
     const jwtToken = (_a = token === null || token === void 0 ? void 0 : token.split(";").find(c => c.trim().startsWith("token="))) === null || _a === void 0 ? void 0 : _a.split("=")[1];
     try {
-        console.log("Hello");
         let decoded = jwt.verify(jwtToken, jwtSecret);
-        console.log(decoded);
         if (!decoded.userId) {
             res.status(403).json({
                 message: "You are not authenticated"
             });
         }
         req.body.userId = decoded.userId;
-        res.json({
-            "userId": decoded.userId
-        });
         next();
     }
     catch (e) {
