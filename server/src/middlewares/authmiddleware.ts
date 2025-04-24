@@ -24,8 +24,10 @@ function userMiddleware(req :Request , res : Response, next : NextFunction) {
                 message : "You are not authenticated"
         })
         }
-
         req.body.userId = decoded.userId;
+        res.json({
+            "userId" : decoded.userId
+        })
         next();
     }catch(e){
         res.json({

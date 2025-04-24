@@ -20,6 +20,14 @@ const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const zod_1 = require("zod");
 dotenv_1.default.config(); // This reads your .env file
+const setTokenAndCookie = (res, userId) => {
+    const token = jwt.sign({ userId }, jwtSecret);
+    res.cookie("token", token, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production", // ✅ secure in production
+        sameSite: "lax", // optional but good for CSRF protection
+    });
+};
 const jwtSecret = process.env.JWT_SECRET;
 if (!jwtSecret)
     throw new Error("JWT_SECRET is not defined");
@@ -32,14 +40,6 @@ const postSignup = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         password: zod_1.z.string(),
         email: zod_1.z.string().email()
     });
-    const user = yield prisma.user.findUnique({
-        where: { email }
-    });
-    if (user) {
-        return res.status(404).json({
-            message: "Existing account with this email"
-        });
-    }
     const newUserCheck = signUpSchema.safeParse({
         firstName,
         lastName,
@@ -48,11 +48,19 @@ const postSignup = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         email
     });
     if (!newUserCheck.success) {
-        return res.status(404).json({
+        return res.status(401).json({
             message: "Please enter details correctly"
         });
     }
     else {
+        const user = yield prisma.user.findUnique({
+            where: { email }
+        });
+        if (user) {
+            return res.status(409).json({
+                message: "Existing account with this email"
+            });
+        }
         const hashedPassword = yield bcryptjs_1.default.hash(password, 10);
         const newUser = yield prisma.user.create({
             data: {
@@ -63,14 +71,14 @@ const postSignup = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
                 passwordHash: hashedPassword
             }
         });
-        const token = jwt.sign({ userId: newUser.id }, jwtSecret);
-        res.cookie("token", token, {
-            httpOnly: true,
-            secure: process.env.NODE_ENV === "production", // ✅ secure in production
-            sameSite: "lax", // optional but good for CSRF protection
-        });
+        setTokenAndCookie(res, newUser.id);
         return res.status(200).json({
-            message: "user registered successfully and logged in"
+            message: "user registered successfully and logged in",
+            user: {
+                id: newUser.id,
+                userName,
+                email
+            }
         });
     }
 });
@@ -84,24 +92,24 @@ const postSignin = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     if (user) {
         const isMatch = yield bcryptjs_1.default.compare(password, user.passwordHash);
         if (!isMatch) {
-            return res.status(404).json({
+            return res.status(401).json({
                 message: "Credetials are wrong"
             });
         }
         else {
-            const token = jwt.sign({ userId: user === null || user === void 0 ? void 0 : user.id }, jwtSecret);
-            res.cookie("token", token, {
-                httpOnly: true,
-                secure: process.env.NODE_ENV === "production", // ✅ secure in production
-                sameSite: "lax", // optional but good for CSRF protection
-            });
+            setTokenAndCookie(res, user === null || user === void 0 ? void 0 : user.id);
             return res.status(200).json({
-                message: "User logged in"
+                message: "User logged in",
+                user: {
+                    id: user.id,
+                    userName: user.email,
+                    email
+                }
             });
         }
     }
     else {
-        return res.status(404).json({
+        return res.status(401).json({
             message: "User not found"
         });
     }

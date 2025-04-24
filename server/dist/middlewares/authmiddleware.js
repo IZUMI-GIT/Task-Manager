@@ -24,6 +24,9 @@ function userMiddleware(req, res, next) {
             });
         }
         req.body.userId = decoded.userId;
+        res.json({
+            "userId": decoded.userId
+        });
         next();
     }
     catch (e) {

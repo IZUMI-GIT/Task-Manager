@@ -8,8 +8,19 @@ import { z } from 'zod';
 
 dotenv.config(); // This reads your .env file
 
+const setTokenAndCookie = (res : Response, userId : number) => {
+    const token = jwt.sign({userId}, jwtSecret);
+        res.cookie("token", token, {
+            httpOnly : true,
+            secure: process.env.NODE_ENV === "production", // ✅ secure in production
+            sameSite: "lax", // optional but good for CSRF protection
+        });
+}
+
+
 const jwtSecret = process.env.JWT_SECRET;
 if (!jwtSecret) throw new Error("JWT_SECRET is not defined");
+
 
 export const postSignup = async (req : Request, res : Response) => {
      
@@ -29,15 +40,7 @@ export const postSignup = async (req : Request, res : Response) => {
         email : z.string().email()
     })
 
-    const user = await prisma.user.findUnique({
-        where : {email}
-    })
-
-    if(user){
-        return res.status(404).json({
-            message : "Existing account with this email"
-        })
-    }
+    
     const newUserCheck = signUpSchema.safeParse({
         firstName,
         lastName,
@@ -47,10 +50,20 @@ export const postSignup = async (req : Request, res : Response) => {
     })
 
     if(!newUserCheck.success){
-        return res.status(404).json({
+        return res.status(401).json({
             message :  "Please enter details correctly"
         })
     }else{
+        
+        const user = await prisma.user.findUnique({
+            where : {email}
+        })
+    
+        if(user){
+            return res.status(409).json({
+                message : "Existing account with this email"
+            })
+        }
         const hashedPassword = await bcrypt.hash(password, 10);
         const newUser  = await prisma.user.create({
             data : {
@@ -62,15 +75,15 @@ export const postSignup = async (req : Request, res : Response) => {
             }
         })
 
-        const token = jwt.sign({userId : newUser.id}, jwtSecret);
-        res.cookie("token", token, {
-            httpOnly : true,
-            secure: process.env.NODE_ENV === "production", // ✅ secure in production
-            sameSite: "lax", // optional but good for CSRF protection
-        });
+        setTokenAndCookie(res, newUser.id);
 
         return res.status(200).json({
-            message: "user registered successfully and logged in"
+            message: "user registered successfully and logged in",
+            user : {
+                id : newUser.id,
+                userName,
+                email
+            }
         })
     }    
 }
@@ -88,23 +101,24 @@ export const postSignin = async (req : Request, res : Response) => {
         const isMatch = await bcrypt.compare(password, user.passwordHash);
 
         if(!isMatch){
-            return res.status(404).json({
+            return res.status(401).json({
                 message : "Credetials are wrong"
             })
         }else{
-            const token = jwt.sign({userId : user?.id},jwtSecret);
-            res.cookie("token", token, {
-                httpOnly : true,
-                secure: process.env.NODE_ENV === "production", // ✅ secure in production
-                sameSite: "lax", // optional but good for CSRF protection
-            })
+            setTokenAndCookie(res, user?.id);
+
 
             return res.status(200).json({
-                message : "User logged in"
+                message : "User logged in",
+                user : {
+                    id : user.id,
+                    userName : user.email,
+                    email
+                }
             })
         }
     }else{
-        return res.status(404).json({
+        return res.status(401).json({
             message : "User not found"
         })
     }
