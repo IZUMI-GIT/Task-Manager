@@ -10,5 +10,5 @@ const router = Router();
 router.post("/board", authmiddleware_1.default, board_controller_1.postBoard);
 router.get("/board", authmiddleware_1.default, board_controller_1.getBoard);
 router.patch("/board/:id", authmiddleware_1.default, board_controller_1.changeBoardName);
-// router.patch("/board/:id", userMiddleware, deleteBoard);
+router.delete("/board/:id", authmiddleware_1.default, board_controller_1.deleteBoard);
 exports.default = router;

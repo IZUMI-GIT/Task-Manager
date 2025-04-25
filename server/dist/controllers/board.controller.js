@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.changeBoardName = exports.getBoard = exports.postBoard = void 0;
+exports.deleteBoard = exports.changeBoardName = exports.getBoard = exports.postBoard = void 0;
 const client_1 = require("../../prisma/prisma/generated/client");
 const prisma = new client_1.PrismaClient();
 const postBoard = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -119,3 +119,32 @@ const changeBoardName = (req, res) => __awaiter(void 0, void 0, void 0, function
     return;
 });
 exports.changeBoardName = changeBoardName;
+const deleteBoard = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const boardId = Number.parseInt(req.params.id);
+    const { userId } = req.body;
+    try {
+        const boardData = yield prisma.board.delete({
+            where: {
+                id: boardId,
+                userId
+            }
+        });
+        if (!boardData) {
+            res.status(403).json({
+                "message": "Deletion not worked - bad request",
+            });
+        }
+        else {
+            res.status(200).json({
+                "message": "Worked",
+            });
+        }
+    }
+    catch (e) {
+        res.status(500).json({
+            "message": "Internal Error",
+            "error": e
+        });
+    }
+});
+exports.deleteBoard = deleteBoard;

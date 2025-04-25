@@ -1,5 +1,5 @@
 import userMiddleware from "../middlewares/authmiddleware";
-import { changeBoardName, getBoard, postBoard } from "../controllers/board.controller";
+import { changeBoardName, deleteBoard, getBoard, postBoard } from "../controllers/board.controller";
 
 const { Router } = require("express")
 const router = Router();
@@ -10,7 +10,6 @@ router.get("/board", userMiddleware, getBoard);
 
 router.patch("/board/:id", userMiddleware, changeBoardName);
 
-// router.patch("/board/:id", userMiddleware, deleteBoard);
-
+router.delete("/board/:id", userMiddleware, deleteBoard);
 
 export default router;

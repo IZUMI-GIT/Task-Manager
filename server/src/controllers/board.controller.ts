@@ -128,3 +128,36 @@ export const changeBoardName = async (req : Request, res : Response) => {
 
     return;
 }
+
+
+export const deleteBoard = async (req : Request, res : Response) => {
+
+    const boardId = Number.parseInt(req.params.id);
+    const {userId} : {
+        userId : number
+    } = req.body;
+
+    try{
+        const boardData = await prisma.board.delete({
+            where : {
+                id :  boardId,
+                userId
+            }
+        })
+
+        if(!boardData){
+            res.status(403).json({
+                "message" : "Deletion not worked - bad request",
+            })
+        }else{
+            res.status(200).json({
+                "message" : "Worked",
+            })
+        }
+    }catch(e) {
+        res.status(500).json({
+            "message" : "Internal Error",
+            "error" : e
+        })
+    }
+}
