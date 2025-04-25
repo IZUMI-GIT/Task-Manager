@@ -46,3 +46,20 @@ export const postBoard = async (req : Request, res : Response) => {
 
     return;
 }
+
+
+export const getBoard = async (req : Request, res : Response) => {
+
+    const {userId} : {
+        userId : number
+    } = req.body
+
+    try {
+        const boardData = await prisma.board.findMany{
+            
+        }
+    }
+
+    
+    return;
+}
