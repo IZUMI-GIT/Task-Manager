@@ -55,11 +55,76 @@ export const getBoard = async (req : Request, res : Response) => {
     } = req.body
 
     try {
-        const boardData = await prisma.board.findMany{
-            
+        const boardData = await prisma.board.findMany({
+            where : {
+                userId : userId
+            },
+            include : {lists : true}
+        })
+
+        const userData = await prisma.user.findUnique({
+            where : {
+                id : userId
+            }            
+        })
+
+        if(!boardData){
+            res.status(500).json({
+                'message' : "data not fetched"
+            })
+        }else{
+            res. status(200).json({
+                'message' : `BoardData fetched for ${userData?.userName}`,
+                data : boardData
+            })
         }
+    }catch(e) {
+        res.status(500).json({
+            'message' : "internal error",
+            'error' :  e
+        })
+    }
+    
+    return;
+}
+
+export const changeBoardName = async (req : Request, res : Response) => {
+
+    const boardId = Number.parseInt(req.params.id);
+
+    const {userId ,title} : {
+        userId : number,
+        title : string
+    } = req.body
+    
+    try{
+
+        const updateBoardName =  await prisma.board.update({
+            where : {
+                id : boardId,
+                userId
+            },
+            data: {
+                title
+            }
+        })
+
+        if(!updateBoardName){
+            res.status(500).json({
+                "message" :  "Internal Error"
+            })
+        }else{
+            res.status(200).json({
+                "message" : "Board name updated",
+                "boardName" : title
+            })
+        }}
+        catch(e) {
+            res.status(500).json({
+                "message" : "Updation Failed",
+                "error" : e
+            })
     }
 
-    
     return;
 }
