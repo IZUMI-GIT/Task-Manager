@@ -3,10 +3,11 @@ import { PrismaClient } from "../../prisma/prisma/generated/client";
 const jwt = require("jsonwebtoken")
 const prisma = new PrismaClient();
 import bcrypt from "bcryptjs";
-import dotenv from "dotenv";
 import { z } from 'zod';
+import { config } from "../config";
 
-dotenv.config(); // This reads your .env file
+const jwtSecret = config.jwtSecret;
+
 
 const setTokenAndCookie = (res : Response, userId : number) => {
     const token = jwt.sign({userId}, jwtSecret);
@@ -16,11 +17,6 @@ const setTokenAndCookie = (res : Response, userId : number) => {
             sameSite: "lax", // optional but good for CSRF protection
         });
 }
-
-
-const jwtSecret = process.env.JWT_SECRET;
-if (!jwtSecret) throw new Error("JWT_SECRET is not defined");
-
 
 export const postSignup = async (req : Request, res : Response) => {
      

@@ -17,6 +17,7 @@ app.use(cors({
 
 app.use("/api/auth", authRouter)
 app.use("/", boardRouter)
+// app.use("/board/:id/", listRouter)
 
 app.listen(PORT, () =>{
     console.log(`server is listening on PORT ${PORT}`)

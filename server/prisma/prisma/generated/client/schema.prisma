@@ -37,20 +37,31 @@ model Board {
 model List {
   id        Int      @id @unique @default(autoincrement())
   title     String
-  position  Int
+  position  Int      @default(autoincrement())
   boardId   Int
   board     Board    @relation(fields: [boardId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   cards     Card[]
   createdAt DateTime @default(now())
+
+  @@unique([boardId, position])
 }
 
 model Card {
-  id          Int      @id @unique @default(autoincrement())
+  id          Int       @id @unique @default(autoincrement())
   title       String
   description String
-  checklists  Boolean  @default(false)
-  position    Int
+  checklists  Boolean   @default(false)
+  position    Int       @default(autoincrement())
   listId      Int
-  list        List     @relation(fields: [listId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  createdAt   DateTime @default(now())
+  list        List      @relation(fields: [listId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  comments    Comment[]
+  createdAt   DateTime  @default(now())
+
+  @@unique([listId, position])
+}
+
+model Comment {
+  id     Int  @id @unique @default(autoincrement())
+  cardId Int
+  card   Card @relation(fields: [cardId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 }

@@ -10,10 +10,8 @@ const jwtSecret = process.env.JWT_SECRET;
 if (!jwtSecret)
     throw new Error("JWT_SECRET is not found");
 function userMiddleware(req, res, next) {
-    var _a;
-    const token = req.headers.cookie;
-    console.log(token);
-    const jwtToken = (_a = token === null || token === void 0 ? void 0 : token.split(";").find(c => c.trim().startsWith("token="))) === null || _a === void 0 ? void 0 : _a.split("=")[1];
+    const jwtToken = req.cookies.token;
+    console.log(jwtToken);
     try {
         let decoded = jwt.verify(jwtToken, jwtSecret);
         if (!decoded.userId) {
@@ -25,7 +23,7 @@ function userMiddleware(req, res, next) {
         next();
     }
     catch (e) {
-        res.json({
+        res.status(401).json({
             msg: e
         });
     }

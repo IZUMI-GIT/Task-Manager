@@ -1,18 +1,13 @@
 import { Request, Response, NextFunction } from "express";
 const jwt = require("jsonwebtoken")
-import dotenv from "dotenv"
 import { JwtPayload } from "jsonwebtoken";
+import { config } from "../config"
 
-dotenv.config();
-
-const jwtSecret = process.env.JWT_SECRET;
-if(!jwtSecret) throw new Error("JWT_SECRET is not found")
+let jwtSecret = config.jwtSecret;
 
 function userMiddleware(req :Request , res : Response, next : NextFunction) {
-    const token = req.headers.cookie;
-    console.log(token)
-
-    const jwtToken = token?.split(";").find(c => c.trim().startsWith("token="))?.split("=")[1]
+    const jwtToken = req.cookies.token;
+    console.log(jwtToken)
 
     try{
         let decoded =  jwt.verify(jwtToken, jwtSecret) as JwtPayload;
@@ -25,7 +20,7 @@ function userMiddleware(req :Request , res : Response, next : NextFunction) {
         req.body.userId = decoded.userId;
         next();
     }catch(e){
-        res.json({
+        res.status(401).json({
             msg : e 
         })
     }
