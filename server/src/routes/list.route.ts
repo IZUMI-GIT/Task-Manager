@@ -11,3 +11,5 @@ router.get("/:id/lists", userMiddleware, getLists)
 router.patch("/:boardId/list/:listId", userMiddleware, changeListName)
 
 router.delete("/:boardId/list/:listId", userMiddleware, deleteList)
+
+export default router;

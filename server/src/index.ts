@@ -3,6 +3,7 @@ import bodyParser from 'body-parser';
 import cors from "cors";
 import authRouter from "./routes/auth.route"
 import boardRouter from "./routes/board.route"
+import listRouter from "./routes/list.route"
 
 const app = express();
 const PORT = 3000;
@@ -17,7 +18,7 @@ app.use(cors({
 
 app.use("/api/auth", authRouter)
 app.use("/", boardRouter)
-// app.use("/board/:id/", listRouter)
+app.use("/board/:id/", listRouter)
 
 app.listen(PORT, () =>{
     console.log(`server is listening on PORT ${PORT}`)
