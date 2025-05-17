@@ -47,7 +47,7 @@ export const postBoard = async (req : Request, res : Response) => {
                 })
         }else{
             res.status(200).json({
-                "message" : `Board ${boardData.title} is created`,
+                "message" : `Board name : '${boardData.title}' is created`,
                 "data" : boardData
             })
         }
