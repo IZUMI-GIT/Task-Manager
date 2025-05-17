@@ -48,8 +48,7 @@ model List {
 
 model Card {
   id Int @id @unique @default(autoincrement())
-  title String
-  description String
+  task String
   checklists Boolean @default(false)
   position Int @default(0)
   listId Int

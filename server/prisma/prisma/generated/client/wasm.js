@@ -147,8 +147,7 @@ exports.Prisma.ListScalarFieldEnum = {
 
 exports.Prisma.CardScalarFieldEnum = {
   id: 'id',
-  title: 'title',
-  description: 'description',
+  task: 'task',
   checklists: 'checklists',
   position: 'position',
   listId: 'listId',

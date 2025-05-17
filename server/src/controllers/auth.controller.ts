@@ -32,7 +32,7 @@ export const postSignup = async (req : Request, res : Response) => {
         firstName : z.string(),
         lastName : z.string(),
         userName : z.string(),
-        password : z.string(),
+        password : z.string().min(8),
         email : z.string().email()
     })
 
@@ -86,8 +86,23 @@ export const postSignup = async (req : Request, res : Response) => {
 
 export const postSignin = async (req : Request, res : Response) => {
 
+    console.log("Entered here...001")
+
     const password = req.body.password;
     const email = req.body.email;
+
+    const signinSchema = z.object({
+        password : z.string().min(8),
+        email : z.string().email()
+    })
+
+    const schemaResult = signinSchema.safeParse({password, email})
+
+    if(!schemaResult.success){
+        return res.status(400).json({
+            message : "Invalid credentials"
+        })
+    }
 
     const user = await prisma.user.findUnique({
         where : {email}

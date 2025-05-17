@@ -1,5 +1,6 @@
 import { PrismaClient } from "../../prisma/prisma/generated/client"
 import { Request, Response } from "express";
+const z = require('zod');
 
 const prisma = new PrismaClient();
 
@@ -10,6 +11,19 @@ export const postBoard = async (req : Request, res : Response) => {
         title :  string,
         lists? : {title : string}[]
     } = req.body
+
+    const boardSchema = z.object({
+        userId : z.number(),
+        title : z.string(),
+    })
+
+    const schemaResult = boardSchema.safeParse({userId, title})
+
+    if(!schemaResult.success){
+        return res.status(400).json({
+            message : "Wrong inputs"
+        })
+    }
 
     try {
         const boardData =  await prisma.board.create({
@@ -96,6 +110,18 @@ export const changeBoardName = async (req : Request, res : Response) => {
         userId : number,
         title : string
     } = req.body
+
+    const boardData = await prisma.board.findFirst({
+        where : {
+            id : boardId
+        }
+    })
+
+    if(!boardData){
+        return res.status(404).json({
+            message : "board not Found"
+        })
+    }
     
     try{
 

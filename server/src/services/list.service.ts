@@ -1,6 +1,5 @@
 import {z} from "zod"
 import { List, PrismaClient } from "../../prisma/prisma/generated/client"
-import { error } from "console";
 
 const prisma = new PrismaClient()
 
@@ -18,7 +17,7 @@ export const createListService  = async (userId : number, boardId : number, titl
     const schemaResult = listSchema.safeParse({userId, boardId, title})
 
     if(!schemaResult.success) {
-        return {error : true, message : "Validation failed"}
+        return {error : true, message : "enter correct fields"}
     }
 
     const existingBoard =  await prisma.board.findUnique({
@@ -67,7 +66,7 @@ export const getListService = async (boardId : number, userId : number) =>{
     const schemaResult = listSchema.safeParse({userId, boardId})
 
     if(!schemaResult.success){
-        return {error : false, message : "Validation failed"}
+        return {error : true, message : "Validation failed"}
     }
 
     const boardData = await prisma.board.findUnique({
@@ -78,7 +77,7 @@ export const getListService = async (boardId : number, userId : number) =>{
     })
 
     if(!boardData){
-        return {error : false, message : "board doesn't exist"}
+        return {error : true, message : "board doesn't exist"}
     }
 
     try{
@@ -88,10 +87,10 @@ export const getListService = async (boardId : number, userId : number) =>{
             }
         })
     
-        return {error : true, list : listsData}
+        return {error : false, list : listsData}
 
     }catch(e){
-        return {error : false, message : "DB error" + (e as Error).message}
+        return {error : true, message : "DB error" + (e as Error).message}
     }
 }
 
@@ -106,7 +105,7 @@ export const listTitleChange = async (boardId : number, listId: number, title: s
     })
 
     if(!listData){
-        return {error : false, message : "List not found"}
+        return {error : true, message : "List not found"}
     }
 
     try{    
@@ -120,10 +119,10 @@ export const listTitleChange = async (boardId : number, listId: number, title: s
             }
         })
 
-        return {error : true, message : "list title changed " + changingListTitle}
+        return {error : false, message : "list title changed " + changingListTitle}
 
     }catch(e){
-        return {error : false, message : "Internal error" + (e as Error).message}
+        return {error : true, message : "Internal error" + (e as Error).message}
     }
 
 }
@@ -138,7 +137,7 @@ export const listDelete = async (listId : number, boardId : number) => {
     })
 
     if(!listData){
-        return {error : false, message : "List not found"}
+        return {error : true, message : "List not found"}
     }
 
     try{
@@ -149,9 +148,9 @@ export const listDelete = async (listId : number, boardId : number) => {
             }
         })
 
-        return {error : true, message : "List deleted" + letsDelete};
+        return {error : false, message : "List deleted" + letsDelete};
 
     }catch(e){
-        return {error : false, message : "Internal error" + (e as Error).message}
+        return {error : true, message : "Internal error" + (e as Error).message}
     }
 }

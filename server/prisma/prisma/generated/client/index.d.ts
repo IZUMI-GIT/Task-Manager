@@ -4755,8 +4755,7 @@ export namespace Prisma {
 
   export type CardMinAggregateOutputType = {
     id: number | null
-    title: string | null
-    description: string | null
+    task: string | null
     checklists: boolean | null
     position: number | null
     listId: number | null
@@ -4765,8 +4764,7 @@ export namespace Prisma {
 
   export type CardMaxAggregateOutputType = {
     id: number | null
-    title: string | null
-    description: string | null
+    task: string | null
     checklists: boolean | null
     position: number | null
     listId: number | null
@@ -4775,8 +4773,7 @@ export namespace Prisma {
 
   export type CardCountAggregateOutputType = {
     id: number
-    title: number
-    description: number
+    task: number
     checklists: number
     position: number
     listId: number
@@ -4799,8 +4796,7 @@ export namespace Prisma {
 
   export type CardMinAggregateInputType = {
     id?: true
-    title?: true
-    description?: true
+    task?: true
     checklists?: true
     position?: true
     listId?: true
@@ -4809,8 +4805,7 @@ export namespace Prisma {
 
   export type CardMaxAggregateInputType = {
     id?: true
-    title?: true
-    description?: true
+    task?: true
     checklists?: true
     position?: true
     listId?: true
@@ -4819,8 +4814,7 @@ export namespace Prisma {
 
   export type CardCountAggregateInputType = {
     id?: true
-    title?: true
-    description?: true
+    task?: true
     checklists?: true
     position?: true
     listId?: true
@@ -4916,8 +4910,7 @@ export namespace Prisma {
 
   export type CardGroupByOutputType = {
     id: number
-    title: string
-    description: string
+    task: string
     checklists: boolean
     position: number
     listId: number
@@ -4945,8 +4938,7 @@ export namespace Prisma {
 
   export type CardSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    title?: boolean
-    description?: boolean
+    task?: boolean
     checklists?: boolean
     position?: boolean
     listId?: boolean
@@ -4958,8 +4950,7 @@ export namespace Prisma {
 
   export type CardSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    title?: boolean
-    description?: boolean
+    task?: boolean
     checklists?: boolean
     position?: boolean
     listId?: boolean
@@ -4969,8 +4960,7 @@ export namespace Prisma {
 
   export type CardSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    title?: boolean
-    description?: boolean
+    task?: boolean
     checklists?: boolean
     position?: boolean
     listId?: boolean
@@ -4980,15 +4970,14 @@ export namespace Prisma {
 
   export type CardSelectScalar = {
     id?: boolean
-    title?: boolean
-    description?: boolean
+    task?: boolean
     checklists?: boolean
     position?: boolean
     listId?: boolean
     createdAt?: boolean
   }
 
-  export type CardOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "checklists" | "position" | "listId" | "createdAt", ExtArgs["result"]["card"]>
+  export type CardOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "task" | "checklists" | "position" | "listId" | "createdAt", ExtArgs["result"]["card"]>
   export type CardInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     list?: boolean | ListDefaultArgs<ExtArgs>
     comments?: boolean | Card$commentsArgs<ExtArgs>
@@ -5009,8 +4998,7 @@ export namespace Prisma {
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
-      title: string
-      description: string
+      task: string
       checklists: boolean
       position: number
       listId: number
@@ -5441,8 +5429,7 @@ export namespace Prisma {
    */
   interface CardFieldRefs {
     readonly id: FieldRef<"Card", 'Int'>
-    readonly title: FieldRef<"Card", 'String'>
-    readonly description: FieldRef<"Card", 'String'>
+    readonly task: FieldRef<"Card", 'String'>
     readonly checklists: FieldRef<"Card", 'Boolean'>
     readonly position: FieldRef<"Card", 'Int'>
     readonly listId: FieldRef<"Card", 'Int'>
@@ -6992,8 +6979,7 @@ export namespace Prisma {
 
   export const CardScalarFieldEnum: {
     id: 'id',
-    title: 'title',
-    description: 'description',
+    task: 'task',
     checklists: 'checklists',
     position: 'position',
     listId: 'listId',
@@ -7286,8 +7272,7 @@ export namespace Prisma {
     OR?: CardWhereInput[]
     NOT?: CardWhereInput | CardWhereInput[]
     id?: IntFilter<"Card"> | number
-    title?: StringFilter<"Card"> | string
-    description?: StringFilter<"Card"> | string
+    task?: StringFilter<"Card"> | string
     checklists?: BoolFilter<"Card"> | boolean
     position?: IntFilter<"Card"> | number
     listId?: IntFilter<"Card"> | number
@@ -7298,8 +7283,7 @@ export namespace Prisma {
 
   export type CardOrderByWithRelationInput = {
     id?: SortOrder
-    title?: SortOrder
-    description?: SortOrder
+    task?: SortOrder
     checklists?: SortOrder
     position?: SortOrder
     listId?: SortOrder
@@ -7314,8 +7298,7 @@ export namespace Prisma {
     AND?: CardWhereInput | CardWhereInput[]
     OR?: CardWhereInput[]
     NOT?: CardWhereInput | CardWhereInput[]
-    title?: StringFilter<"Card"> | string
-    description?: StringFilter<"Card"> | string
+    task?: StringFilter<"Card"> | string
     checklists?: BoolFilter<"Card"> | boolean
     position?: IntFilter<"Card"> | number
     listId?: IntFilter<"Card"> | number
@@ -7326,8 +7309,7 @@ export namespace Prisma {
 
   export type CardOrderByWithAggregationInput = {
     id?: SortOrder
-    title?: SortOrder
-    description?: SortOrder
+    task?: SortOrder
     checklists?: SortOrder
     position?: SortOrder
     listId?: SortOrder
@@ -7344,8 +7326,7 @@ export namespace Prisma {
     OR?: CardScalarWhereWithAggregatesInput[]
     NOT?: CardScalarWhereWithAggregatesInput | CardScalarWhereWithAggregatesInput[]
     id?: IntWithAggregatesFilter<"Card"> | number
-    title?: StringWithAggregatesFilter<"Card"> | string
-    description?: StringWithAggregatesFilter<"Card"> | string
+    task?: StringWithAggregatesFilter<"Card"> | string
     checklists?: BoolWithAggregatesFilter<"Card"> | boolean
     position?: IntWithAggregatesFilter<"Card"> | number
     listId?: IntWithAggregatesFilter<"Card"> | number
@@ -7571,8 +7552,7 @@ export namespace Prisma {
   }
 
   export type CardCreateInput = {
-    title: string
-    description: string
+    task: string
     checklists?: boolean
     position?: number
     createdAt?: Date | string
@@ -7582,8 +7562,7 @@ export namespace Prisma {
 
   export type CardUncheckedCreateInput = {
     id?: number
-    title: string
-    description: string
+    task: string
     checklists?: boolean
     position?: number
     listId: number
@@ -7592,8 +7571,7 @@ export namespace Prisma {
   }
 
   export type CardUpdateInput = {
-    title?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
+    task?: StringFieldUpdateOperationsInput | string
     checklists?: BoolFieldUpdateOperationsInput | boolean
     position?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -7603,8 +7581,7 @@ export namespace Prisma {
 
   export type CardUncheckedUpdateInput = {
     id?: IntFieldUpdateOperationsInput | number
-    title?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
+    task?: StringFieldUpdateOperationsInput | string
     checklists?: BoolFieldUpdateOperationsInput | boolean
     position?: IntFieldUpdateOperationsInput | number
     listId?: IntFieldUpdateOperationsInput | number
@@ -7614,8 +7591,7 @@ export namespace Prisma {
 
   export type CardCreateManyInput = {
     id?: number
-    title: string
-    description: string
+    task: string
     checklists?: boolean
     position?: number
     listId: number
@@ -7623,8 +7599,7 @@ export namespace Prisma {
   }
 
   export type CardUpdateManyMutationInput = {
-    title?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
+    task?: StringFieldUpdateOperationsInput | string
     checklists?: BoolFieldUpdateOperationsInput | boolean
     position?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -7632,8 +7607,7 @@ export namespace Prisma {
 
   export type CardUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
-    title?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
+    task?: StringFieldUpdateOperationsInput | string
     checklists?: BoolFieldUpdateOperationsInput | boolean
     position?: IntFieldUpdateOperationsInput | number
     listId?: IntFieldUpdateOperationsInput | number
@@ -7934,8 +7908,7 @@ export namespace Prisma {
 
   export type CardCountOrderByAggregateInput = {
     id?: SortOrder
-    title?: SortOrder
-    description?: SortOrder
+    task?: SortOrder
     checklists?: SortOrder
     position?: SortOrder
     listId?: SortOrder
@@ -7950,8 +7923,7 @@ export namespace Prisma {
 
   export type CardMaxOrderByAggregateInput = {
     id?: SortOrder
-    title?: SortOrder
-    description?: SortOrder
+    task?: SortOrder
     checklists?: SortOrder
     position?: SortOrder
     listId?: SortOrder
@@ -7960,8 +7932,7 @@ export namespace Prisma {
 
   export type CardMinOrderByAggregateInput = {
     id?: SortOrder
-    title?: SortOrder
-    description?: SortOrder
+    task?: SortOrder
     checklists?: SortOrder
     position?: SortOrder
     listId?: SortOrder
@@ -8537,8 +8508,7 @@ export namespace Prisma {
   }
 
   export type CardCreateWithoutListInput = {
-    title: string
-    description: string
+    task: string
     checklists?: boolean
     position?: number
     createdAt?: Date | string
@@ -8547,8 +8517,7 @@ export namespace Prisma {
 
   export type CardUncheckedCreateWithoutListInput = {
     id?: number
-    title: string
-    description: string
+    task: string
     checklists?: boolean
     position?: number
     createdAt?: Date | string
@@ -8610,8 +8579,7 @@ export namespace Prisma {
     OR?: CardScalarWhereInput[]
     NOT?: CardScalarWhereInput | CardScalarWhereInput[]
     id?: IntFilter<"Card"> | number
-    title?: StringFilter<"Card"> | string
-    description?: StringFilter<"Card"> | string
+    task?: StringFilter<"Card"> | string
     checklists?: BoolFilter<"Card"> | boolean
     position?: IntFilter<"Card"> | number
     listId?: IntFilter<"Card"> | number
@@ -8707,8 +8675,7 @@ export namespace Prisma {
   }
 
   export type CardCreateWithoutCommentsInput = {
-    title: string
-    description: string
+    task: string
     checklists?: boolean
     position?: number
     createdAt?: Date | string
@@ -8717,8 +8684,7 @@ export namespace Prisma {
 
   export type CardUncheckedCreateWithoutCommentsInput = {
     id?: number
-    title: string
-    description: string
+    task: string
     checklists?: boolean
     position?: number
     listId: number
@@ -8742,8 +8708,7 @@ export namespace Prisma {
   }
 
   export type CardUpdateWithoutCommentsInput = {
-    title?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
+    task?: StringFieldUpdateOperationsInput | string
     checklists?: BoolFieldUpdateOperationsInput | boolean
     position?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -8752,8 +8717,7 @@ export namespace Prisma {
 
   export type CardUncheckedUpdateWithoutCommentsInput = {
     id?: IntFieldUpdateOperationsInput | number
-    title?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
+    task?: StringFieldUpdateOperationsInput | string
     checklists?: BoolFieldUpdateOperationsInput | boolean
     position?: IntFieldUpdateOperationsInput | number
     listId?: IntFieldUpdateOperationsInput | number
@@ -8816,16 +8780,14 @@ export namespace Prisma {
 
   export type CardCreateManyListInput = {
     id?: number
-    title: string
-    description: string
+    task: string
     checklists?: boolean
     position?: number
     createdAt?: Date | string
   }
 
   export type CardUpdateWithoutListInput = {
-    title?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
+    task?: StringFieldUpdateOperationsInput | string
     checklists?: BoolFieldUpdateOperationsInput | boolean
     position?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -8834,8 +8796,7 @@ export namespace Prisma {
 
   export type CardUncheckedUpdateWithoutListInput = {
     id?: IntFieldUpdateOperationsInput | number
-    title?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
+    task?: StringFieldUpdateOperationsInput | string
     checklists?: BoolFieldUpdateOperationsInput | boolean
     position?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -8844,8 +8805,7 @@ export namespace Prisma {
 
   export type CardUncheckedUpdateManyWithoutListInput = {
     id?: IntFieldUpdateOperationsInput | number
-    title?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
+    task?: StringFieldUpdateOperationsInput | string
     checklists?: BoolFieldUpdateOperationsInput | boolean
     position?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string

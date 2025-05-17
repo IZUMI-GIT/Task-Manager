@@ -17,9 +17,9 @@ const client_1 = require("../../prisma/prisma/generated/client");
 const jwt = require("jsonwebtoken");
 const prisma = new client_1.PrismaClient();
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
-const dotenv_1 = __importDefault(require("dotenv"));
 const zod_1 = require("zod");
-dotenv_1.default.config(); // This reads your .env file
+const config_1 = require("../config");
+const jwtSecret = config_1.config.jwtSecret;
 const setTokenAndCookie = (res, userId) => {
     const token = jwt.sign({ userId }, jwtSecret);
     res.cookie("token", token, {
@@ -28,16 +28,13 @@ const setTokenAndCookie = (res, userId) => {
         sameSite: "lax", // optional but good for CSRF protection
     });
 };
-const jwtSecret = process.env.JWT_SECRET;
-if (!jwtSecret)
-    throw new Error("JWT_SECRET is not defined");
 const postSignup = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { firstName, lastName, userName, password, email } = req.body;
     const signUpSchema = zod_1.z.object({
         firstName: zod_1.z.string(),
         lastName: zod_1.z.string(),
         userName: zod_1.z.string(),
-        password: zod_1.z.string(),
+        password: zod_1.z.string().min(8),
         email: zod_1.z.string().email()
     });
     const newUserCheck = signUpSchema.safeParse({
@@ -84,8 +81,19 @@ const postSignup = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
 });
 exports.postSignup = postSignup;
 const postSignin = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log("Entered here...001");
     const password = req.body.password;
     const email = req.body.email;
+    const signinSchema = zod_1.z.object({
+        password: zod_1.z.string().min(8),
+        email: zod_1.z.string().email()
+    });
+    const schemaResult = signinSchema.safeParse({ password, email });
+    if (!schemaResult.success) {
+        return res.status(400).json({
+            message: "Invalid credentials"
+        });
+    }
     const user = yield prisma.user.findUnique({
         where: { email }
     });

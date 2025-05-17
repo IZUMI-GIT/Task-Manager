@@ -40,7 +40,7 @@ export const getLists = async (req: Request, res : Response) => {
 
     const fetchedLists = await getListService(boardId, userId)
 
-    if(!fetchedLists.error){
+    if(fetchedLists.error){
         res.status(400).json({
             message : fetchedLists.message
         })
@@ -61,7 +61,7 @@ export const changeListName = async (req : Request, res: Response) => {
 
     const changedResult = listTitleChange(boardId, listId, title);
 
-    if(!(await changedResult).error){
+    if((await changedResult).error){
         res.status(400).json({
             message : (await changedResult).message
         })
@@ -78,8 +78,12 @@ export const deleteList = async (req : Request, res : Response) => {
 
     const deletedResult = await listDelete(listId, boardId);
 
-    if(!deletedResult.error){
+    if(deletedResult.error){
         res.status(400).json({
+            message : deletedResult.message
+        })
+    }else{
+        res.status(200).json({
             message : deletedResult.message
         })
     }

@@ -11,9 +11,20 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteBoard = exports.changeBoardName = exports.getBoard = exports.postBoard = void 0;
 const client_1 = require("../../prisma/prisma/generated/client");
+const z = require('zod');
 const prisma = new client_1.PrismaClient();
 const postBoard = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { userId, title, lists } = req.body;
+    const boardSchema = z.object({
+        userId: z.number(),
+        title: z.string(),
+    });
+    const schemaResult = boardSchema.safeParse({ userId, title });
+    if (!schemaResult.success) {
+        return res.status(400).json({
+            message: "Wrong inputs"
+        });
+    }
     try {
         const boardData = yield prisma.board.create({
             data: {
@@ -88,6 +99,16 @@ exports.getBoard = getBoard;
 const changeBoardName = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const boardId = Number.parseInt(req.params.id);
     const { userId, title } = req.body;
+    const boardData = yield prisma.board.findFirst({
+        where: {
+            id: boardId
+        }
+    });
+    if (!boardData) {
+        return res.status(404).json({
+            message: "board not Found"
+        });
+    }
     try {
         const updateBoardName = yield prisma.board.update({
             where: {

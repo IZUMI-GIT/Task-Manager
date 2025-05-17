@@ -1,14 +1,8 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 const jwt = require("jsonwebtoken");
-const dotenv_1 = __importDefault(require("dotenv"));
-dotenv_1.default.config();
-const jwtSecret = process.env.JWT_SECRET;
-if (!jwtSecret)
-    throw new Error("JWT_SECRET is not found");
+const config_1 = require("../config");
+let jwtSecret = config_1.config.jwtSecret;
 function userMiddleware(req, res, next) {
     const jwtToken = req.cookies.token;
     console.log(jwtToken);

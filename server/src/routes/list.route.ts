@@ -4,7 +4,7 @@ import userMiddleware from "../middlewares/authmiddleware"
 const Router = require("express")
 const router = Router()
 
-router.post("/list",userMiddleware, createList)
+router.post("/:id/list",userMiddleware, createList)
 
 router.get("/:id/lists", userMiddleware, getLists)
 

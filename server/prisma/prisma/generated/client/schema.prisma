@@ -47,15 +47,14 @@ model List {
 }
 
 model Card {
-  id          Int       @id @unique @default(autoincrement())
-  title       String
-  description String
-  checklists  Boolean   @default(false)
-  position    Int       @default(autoincrement())
-  listId      Int
-  list        List      @relation(fields: [listId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  comments    Comment[]
-  createdAt   DateTime  @default(now())
+  id         Int       @id @unique @default(autoincrement())
+  task       String
+  checklists Boolean   @default(false)
+  position   Int       @default(0)
+  listId     Int
+  list       List      @relation(fields: [listId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  comments   Comment[]
+  createdAt  DateTime  @default(now())
 
   @@unique([listId, position])
 }
