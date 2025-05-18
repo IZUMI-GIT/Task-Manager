@@ -47,7 +47,7 @@ export const postBoard = async (req : Request, res : Response) => {
                 })
         }else{
             res.status(200).json({
-                "message" : `Board name : '${boardData.title}' is created`,
+                "message" : `Board name : '${boardData.title}' is created successfully`,
                 "data" : boardData
             })
         }
@@ -141,7 +141,7 @@ export const changeBoardName = async (req : Request, res : Response) => {
             })
         }else{
             res.status(200).json({
-                "message" : "Board name updated",
+                "message" : "Board name updated successfully",
                 "boardName" : title
             })
         }}
@@ -177,7 +177,7 @@ export const deleteBoard = async (req : Request, res : Response) => {
             })
         }else{
             res.status(200).json({
-                "message" : "Worked",
+                "message" : `Board : '${boardData.title}' is deleted successfully`,
             })
         }
     }catch(e) {

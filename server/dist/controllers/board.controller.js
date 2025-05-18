@@ -47,7 +47,7 @@ const postBoard = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         }
         else {
             res.status(200).json({
-                "message": `Board ${boardData.title} is created`,
+                "message": `Board name : '${boardData.title}' is created successfully`,
                 "data": boardData
             });
         }
@@ -126,7 +126,7 @@ const changeBoardName = (req, res) => __awaiter(void 0, void 0, void 0, function
         }
         else {
             res.status(200).json({
-                "message": "Board name updated",
+                "message": "Board name updated successfully",
                 "boardName": title
             });
         }
@@ -157,7 +157,7 @@ const deleteBoard = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         }
         else {
             res.status(200).json({
-                "message": "Worked",
+                "message": `Board : '${boardData.title}' is deleted successfully`,
             });
         }
     }
