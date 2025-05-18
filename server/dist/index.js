@@ -21,9 +21,9 @@ app.use((0, cors_1.default)({
     origin: "http://localhost:5173"
 }));
 app.use("/api/auth", auth_route_1.default);
-app.use("/", board_route_1.default);
-app.use("/board/:id/", list_route_1.default);
-app.use("/board/:boardId/list/:listId", card_route_1.default);
+app.use("/board", board_route_1.default);
+app.use("/board/:boardId/list", list_route_1.default);
+app.use("/board/:boardId/list/:listId/card", card_route_1.default);
 app.listen(PORT, () => {
     console.log(`server is listening on PORT ${PORT}`);
 });

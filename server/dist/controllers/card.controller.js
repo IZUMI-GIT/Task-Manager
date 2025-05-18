@@ -22,7 +22,7 @@ const createCard = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         });
     }
     else {
-        return res.status(200).json({
+        return res.status(201).json({
             message: result.message
         });
     }
@@ -31,7 +31,7 @@ exports.createCard = createCard;
 const getCards = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { userId } = req.body;
     const boardId = Number(req.params.boardId);
-    const listId = Number(req.body.listId);
+    const listId = Number(req.params.listId);
     const result = yield (0, card_service_1.getCardService)(userId, boardId, listId);
     if (result.error) {
         return res.status(400).json({
@@ -75,7 +75,7 @@ const deleteCard = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         });
     }
     else {
-        return res.status(200).json({
+        return res.status(204).json({
             message: result.message
         });
     }

@@ -46,7 +46,7 @@ export const postBoard = async (req : Request, res : Response) => {
                     "message" : "Board not created"
                 })
         }else{
-            res.status(200).json({
+            res.status(201).json({
                 "message" : `Board name : '${boardData.title}' is created successfully`,
                 "data" : boardData
             })
@@ -176,7 +176,7 @@ export const deleteBoard = async (req : Request, res : Response) => {
                 "message" : "Deletion not worked - bad request",
             })
         }else{
-            res.status(200).json({
+            res.status(204).json({
                 "message" : `Board : '${boardData.title}' is deleted successfully`,
             })
         }

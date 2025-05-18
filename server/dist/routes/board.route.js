@@ -7,8 +7,9 @@ const authmiddleware_1 = __importDefault(require("../middlewares/authmiddleware"
 const board_controller_1 = require("../controllers/board.controller");
 const { Router } = require("express");
 const router = Router();
-router.post("/board", authmiddleware_1.default, board_controller_1.postBoard);
-router.get("/board", authmiddleware_1.default, board_controller_1.getBoard);
-router.patch("/board/:id", authmiddleware_1.default, board_controller_1.changeBoardName);
-router.delete("/board/:id", authmiddleware_1.default, board_controller_1.deleteBoard);
+router.use(authmiddleware_1.default);
+router.post("/", board_controller_1.postBoard);
+router.get("/", board_controller_1.getBoard);
+router.patch("/:id", board_controller_1.changeBoardName);
+router.delete("/:id", board_controller_1.deleteBoard);
 exports.default = router;

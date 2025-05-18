@@ -13,7 +13,8 @@ export const createList = async (req : Request, res: Response) => {
         title : string
     } = req.body
 
-    const boardId =  Number(req.params.id)
+    const boardId =  Number(req.params.boardId)
+    console.log(req.params.boardId)
 
     const result : createListResult = await createListService(userId, boardId, title);
 
@@ -22,7 +23,7 @@ export const createList = async (req : Request, res: Response) => {
             message : result.message
         })
     }else{
-        res.status(200).json({
+        res.status(201).json({
             list : result.list
         })
     }
@@ -59,15 +60,15 @@ export const changeListName = async (req : Request, res: Response) => {
         title : string
     } = req.body;
 
-    const changedResult = listTitleChange(boardId, listId, title);
+    const changedResult =await listTitleChange(boardId, listId, title);
 
-    if((await changedResult).error){
+    if(changedResult.error){
         res.status(400).json({
-            message : (await changedResult).message
+            message : changedResult.message
         })
     }else{
         res.status(200).json({
-            message : (await changedResult).message
+            message : changedResult.message
         })
     }
 }
@@ -83,7 +84,7 @@ export const deleteList = async (req : Request, res : Response) => {
             message : deletedResult.message
         })
     }else{
-        res.status(200).json({
+        res.status(204).json({
             message : deletedResult.message
         })
     }

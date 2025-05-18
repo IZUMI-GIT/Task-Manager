@@ -4,7 +4,7 @@ import cors from "cors";
 import authRouter from "./routes/auth.route"
 import boardRouter from "./routes/board.route"
 import listRouter from "./routes/list.route"
-import router from './routes/card.route';
+import cardRouter from './routes/card.route';
 const cookieParser = require("cookie-parser")
 
 const app = express();
@@ -20,9 +20,9 @@ app.use(cors({
 
 
 app.use("/api/auth", authRouter)
-app.use("/", boardRouter)
-app.use("/board/:id/", listRouter)
-app.use("/board/:boardId/list/:listId", router)
+app.use("/board", boardRouter)
+app.use("/board/:boardId/list", listRouter)
+app.use("/board/:boardId/list/:listId/card", cardRouter)
 
 app.listen(PORT, () =>{
     console.log(`server is listening on PORT ${PORT}`)

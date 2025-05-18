@@ -2,14 +2,16 @@ import { createCard, deleteCard, getCards, patchCard } from "../controllers/card
 import userMiddleware from "../middlewares/authmiddleware";
 
 const { Router } = require("express");
-const router = Router();
+const router = Router({mergeParams : true});
 
-router.post("/card", userMiddleware,  createCard);
+// router.use(userMiddleware)
 
-router.get("/cards",userMiddleware, getCards);
+router.post("/", createCard);
 
-router.patch("/card/:id", userMiddleware, patchCard);
+router.get("/", getCards);
 
-router.delete("/card/:id", userMiddleware, deleteCard);
+router.patch("/:id", patchCard);
+
+router.delete("/:id", deleteCard);
 
 export default router;

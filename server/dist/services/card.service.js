@@ -137,7 +137,7 @@ const patchCardService = (userId, boardId, listId, cardId, task) => __awaiter(vo
                     listId
                 }
             });
-            return { error: false, message: "card updated " + cardPatched };
+            return { error: false, message: "card updated " + cardPatched.task };
         }
         catch (e) {
             return { error: true, message: "DB Internal error " + e.message };
@@ -168,7 +168,7 @@ const deleteCardService = (userId, boardId, listId, cardId) => __awaiter(void 0,
         }
     });
     if (!existingList) {
-        return { error: true, message: "board not found" };
+        return { error: true, message: "board and list not found" };
     }
     else {
         const existingCard = yield prisma.card.findUnique({

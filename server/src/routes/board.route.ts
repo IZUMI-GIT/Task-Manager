@@ -4,12 +4,14 @@ import { changeBoardName, deleteBoard, getBoard, postBoard } from "../controller
 const { Router } = require("express")
 const router = Router();
 
-router.post("/board", userMiddleware, postBoard);
+router.use(userMiddleware)
 
-router.get("/board", userMiddleware, getBoard);
+router.post("/", postBoard);
 
-router.patch("/board/:id", userMiddleware, changeBoardName);
+router.get("/", getBoard);
 
-router.delete("/board/:id", userMiddleware, deleteBoard);
+router.patch("/:id", changeBoardName);
+
+router.delete("/:id", deleteBoard);
 
 export default router;

@@ -13,7 +13,8 @@ exports.deleteList = exports.changeListName = exports.getLists = exports.createL
 const list_service_1 = require("../services/list.service");
 const createList = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { userId, title } = req.body;
-    const boardId = Number(req.params.id);
+    const boardId = Number(req.params.boardId);
+    console.log(req.params.boardId);
     const result = yield (0, list_service_1.createListService)(userId, boardId, title);
     if (result.error) {
         res.status(400).json({
@@ -21,7 +22,7 @@ const createList = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         });
     }
     else {
-        res.status(200).json({
+        res.status(201).json({
             list: result.list
         });
     }
@@ -47,15 +48,15 @@ const changeListName = (req, res) => __awaiter(void 0, void 0, void 0, function*
     const listId = Number(req.params.listId);
     const boardId = Number(req.params.boardId);
     const { title } = req.body;
-    const changedResult = (0, list_service_1.listTitleChange)(boardId, listId, title);
-    if ((yield changedResult).error) {
+    const changedResult = yield (0, list_service_1.listTitleChange)(boardId, listId, title);
+    if (changedResult.error) {
         res.status(400).json({
-            message: (yield changedResult).message
+            message: changedResult.message
         });
     }
     else {
         res.status(200).json({
-            message: (yield changedResult).message
+            message: changedResult.message
         });
     }
 });
@@ -70,7 +71,7 @@ const deleteList = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         });
     }
     else {
-        res.status(200).json({
+        res.status(204).json({
             message: deletedResult.message
         });
     }

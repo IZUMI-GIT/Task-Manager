@@ -148,7 +148,7 @@ export const patchCardService = async (userId : number, boardId : number, listId
                 }
             })
 
-            return {error : false , message : "card updated " + cardPatched }
+            return {error : false , message : "card updated " + cardPatched.task }
         }catch (e){
             return {error : true, message : "DB Internal error " + (e as Error).message}
         }
@@ -185,7 +185,7 @@ export const deleteCardService = async (userId : number, boardId : number, listI
     })
 
     if(!existingList){
-        return {error : true, message : "board not found"}
+        return {error : true, message : "board and list not found"}
     }else{
         const existingCard = await prisma.card.findUnique({
             where : {

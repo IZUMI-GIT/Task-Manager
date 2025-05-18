@@ -1,15 +1,17 @@
 import { changeListName, createList, deleteList, getLists } from "../controllers/list.controller"
 import userMiddleware from "../middlewares/authmiddleware"
 
-const Router = require("express")
-const router = Router()
+const { Router } = require("express")
+const router = Router({mergeParams: true})
 
-router.post("/:id/list",userMiddleware, createList)
+// router.use(userMiddleware)
 
-router.get("/:id/lists", userMiddleware, getLists)
+router.post("/", createList)
 
-router.patch("/:boardId/list/:listId", userMiddleware, changeListName)
+router.get("/", getLists)
 
-router.delete("/:boardId/list/:listId", userMiddleware, deleteList)
+router.patch("/:listId", changeListName)
+
+router.delete("/:listId", deleteList)
 
 export default router;

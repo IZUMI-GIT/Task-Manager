@@ -46,7 +46,7 @@ const postBoard = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             });
         }
         else {
-            res.status(200).json({
+            res.status(201).json({
                 "message": `Board name : '${boardData.title}' is created successfully`,
                 "data": boardData
             });
@@ -156,7 +156,7 @@ const deleteBoard = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
             });
         }
         else {
-            res.status(200).json({
+            res.status(204).json({
                 "message": `Board : '${boardData.title}' is deleted successfully`,
             });
         }

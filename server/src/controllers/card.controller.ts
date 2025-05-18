@@ -1,7 +1,5 @@
 import { Request, Response,  } from "express";
 import { createCardService, deleteCardService, getCardService, patchCardService } from "../services/card.service";
-import { error } from "console";
-
 
 export const createCard  = async (req : Request, res : Response) => {
 
@@ -20,7 +18,7 @@ export const createCard  = async (req : Request, res : Response) => {
             message : result.message
         })
     }else{
-        return res.status(200).json({
+        return res.status(201).json({
             message : result.message
         })
     }
@@ -34,7 +32,8 @@ export const getCards = async (req : Request, res :  Response) => {
     } = req.body;
 
     const boardId : number = Number(req.params.boardId);
-    const listId : number = Number(req.body.listId);
+    const listId : number = Number(req.params.listId);
+
 
     const result = await getCardService(userId, boardId, listId);
 
@@ -91,7 +90,7 @@ export const deleteCard = async ( req : Request, res : Response) => {
             message : result.message
         })
     }else{
-        return res.status(200).json({
+        return res.status(204).json({
             message : result.message
         })
     }

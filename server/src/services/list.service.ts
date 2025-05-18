@@ -15,7 +15,8 @@ export const createListService  = async (userId : number, boardId : number, titl
     })
 
     const schemaResult = listSchema.safeParse({userId, boardId, title})
-
+    console.log(schemaResult)
+    console.log({userId, boardId, title})
     if(!schemaResult.success) {
         return {error : true, message : "enter correct fields"}
     }
@@ -119,7 +120,9 @@ export const listTitleChange = async (boardId : number, listId: number, title: s
             }
         })
 
-        return {error : false, message : "list title changed " + changingListTitle}
+        console.log(changingListTitle)
+
+        return {error : false, message : "list title changed to " + changingListTitle.title}
 
     }catch(e){
         return {error : true, message : "Internal error" + (e as Error).message}
@@ -148,7 +151,8 @@ export const listDelete = async (listId : number, boardId : number) => {
             }
         })
 
-        return {error : false, message : "List deleted" + letsDelete};
+        console.log(letsDelete)
+        return {error : false, message :" list deleted"};
 
     }catch(e){
         return {error : true, message : "Internal error" + (e as Error).message}
