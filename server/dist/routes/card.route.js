@@ -3,9 +3,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const card_controller_1 = require("../controllers/card.controller");
 const { Router } = require("express");
 const router = Router({ mergeParams: true });
-// router.use(userMiddleware)
 router.post("/", card_controller_1.createCard);
 router.get("/", card_controller_1.getCards);
-router.patch("/:id", card_controller_1.patchCard);
+router.patch("/:id", card_controller_1.patchCardTitle);
+router.patch("/:id", card_controller_1.patchCardCheckList);
 router.delete("/:id", card_controller_1.deleteCard);
 exports.default = router;

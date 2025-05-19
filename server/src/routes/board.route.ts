@@ -1,10 +1,12 @@
-import userMiddleware from "../middlewares/authmiddleware";
 import { changeBoardName, deleteBoard, getBoard, postBoard } from "../controllers/board.controller";
+import authMiddleware from "../middlewares/authmiddleware";
+import loggerMiddleware from "../middlewares/usermiddleware";
 
 const { Router } = require("express")
 const router = Router();
 
-router.use(userMiddleware)
+router.use(authMiddleware)
+router.use(loggerMiddleware);
 
 router.post("/", postBoard);
 

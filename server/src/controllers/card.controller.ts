@@ -1,5 +1,5 @@
 import { Request, Response,  } from "express";
-import { createCardService, deleteCardService, getCardService, patchCardService } from "../services/card.service";
+import { checklistCardService, createCardService, deleteCardService, getCardService, patchCardService } from "../services/card.service";
 
 export const createCard  = async (req : Request, res : Response) => {
 
@@ -49,7 +49,7 @@ export const getCards = async (req : Request, res :  Response) => {
 }
 
 
-export const patchCard = async (req : Request, res : Response) => {
+export const patchCardTitle = async (req : Request, res : Response) => {
 
     const {userId, task} : {
         userId : number,
@@ -72,6 +72,26 @@ export const patchCard = async (req : Request, res : Response) => {
         })
     }
 }
+
+export const patchCardCheckList = async(req: Request, res : Response) =>{
+
+    const boardId : number = Number(req.params.boardId);
+    const listId : number = Number(req.params.listId);
+    const cardId : number = Number(req.params.id);
+
+    const result = await checklistCardService(boardId, listId, cardId)
+
+    if(result.error){
+        return res.status(400).json({
+            message : result.message
+        })
+    }else{
+        return res.status(200).json({
+            message : result.message
+        })
+    }
+}
+
 
 export const deleteCard = async ( req : Request, res : Response) => {
 

@@ -14,7 +14,6 @@ export const createList = async (req : Request, res: Response) => {
     } = req.body
 
     const boardId =  Number(req.params.boardId)
-    console.log(req.params.boardId)
 
     const result : createListResult = await createListService(userId, boardId, title);
 

@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const jwt = require("jsonwebtoken");
 const config_1 = require("../config");
 let jwtSecret = config_1.config.jwtSecret;
-function userMiddleware(req, res, next) {
+function authMiddleware(req, res, next) {
     const jwtToken = req.cookies.token;
     console.log(jwtToken);
     try {
@@ -22,4 +22,4 @@ function userMiddleware(req, res, next) {
         });
     }
 }
-exports.default = userMiddleware;
+exports.default = authMiddleware;

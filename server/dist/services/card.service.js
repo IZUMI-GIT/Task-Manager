@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteCardService = exports.patchCardService = exports.getCardService = exports.createCardService = void 0;
+exports.deleteCardService = exports.checklistCardService = exports.patchCardService = exports.getCardService = exports.createCardService = void 0;
 const client_1 = require("../../prisma/prisma/generated/client");
 const prisma = new client_1.PrismaClient();
 const z = require('zod');
@@ -41,7 +41,7 @@ const createCardService = (userId, boardId, listId, task) => __awaiter(void 0, v
             position: "desc"
         }
     });
-    let newPosition = cardCount.length > 0 ? cardCount.length + 1 : 0;
+    let newPosition = cardCount.length > 0 ? cardCount[0].position + 1 : 0;
     try {
         const cardCreated = yield prisma.card.create({
             data: {
@@ -145,6 +145,53 @@ const patchCardService = (userId, boardId, listId, cardId, task) => __awaiter(vo
     }
 });
 exports.patchCardService = patchCardService;
+const checklistCardService = (boardId, listId, cardId) => __awaiter(void 0, void 0, void 0, function* () {
+    const cardcheckSchema = z.object({
+        boardId: z.number(),
+        listId: z.object(),
+        cardId: z.object()
+    });
+    const schemaResult = cardcheckSchema.safeParse({ boardId, listId, cardId });
+    if (!schemaResult) {
+        return { error: true, message: "enter valid details" };
+    }
+    const existingList = yield prisma.list.findUnique({
+        where: {
+            boardId,
+            id: listId
+        }
+    });
+    if (!existingList) {
+        return { error: true, message: "board not found" };
+    }
+    else {
+        const existingCard = yield prisma.card.findUnique({
+            where: {
+                id: cardId,
+                listId
+            }
+        });
+        if (!existingCard) {
+            return { error: true, message: "Card not found" };
+        }
+        try {
+            const cardPatched = yield prisma.card.update({
+                data: {
+                    checklists: true
+                },
+                where: {
+                    id: cardId,
+                    listId
+                }
+            });
+            return { error: false, message: "card updated " + cardPatched.task };
+        }
+        catch (e) {
+            return { error: true, message: "DB Internal error " + e.message };
+        }
+    }
+});
+exports.checklistCardService = checklistCardService;
 const deleteCardService = (userId, boardId, listId, cardId) => __awaiter(void 0, void 0, void 0, function* () {
     const cardPatchSchema = z.object({
         userId: z.number(),

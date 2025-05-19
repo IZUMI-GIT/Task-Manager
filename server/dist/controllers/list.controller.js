@@ -14,7 +14,6 @@ const list_service_1 = require("../services/list.service");
 const createList = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { userId, title } = req.body;
     const boardId = Number(req.params.boardId);
-    console.log(req.params.boardId);
     const result = yield (0, list_service_1.createListService)(userId, boardId, title);
     if (result.error) {
         res.status(400).json({

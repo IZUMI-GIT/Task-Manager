@@ -20,8 +20,6 @@ const createListService = (userId, boardId, title) => __awaiter(void 0, void 0, 
         title: zod_1.z.string().min(3)
     });
     const schemaResult = listSchema.safeParse({ userId, boardId, title });
-    console.log(schemaResult);
-    console.log({ userId, boardId, title });
     if (!schemaResult.success) {
         return { error: true, message: "enter correct fields" };
     }
@@ -106,7 +104,6 @@ const listTitleChange = (boardId, listId, title) => __awaiter(void 0, void 0, vo
                 boardId
             }
         });
-        console.log(changingListTitle);
         return { error: false, message: "list title changed to " + changingListTitle.title };
     }
     catch (e) {
@@ -131,7 +128,6 @@ const listDelete = (listId, boardId) => __awaiter(void 0, void 0, void 0, functi
                 id: listId
             }
         });
-        console.log(letsDelete);
         return { error: false, message: " list deleted" };
     }
     catch (e) {

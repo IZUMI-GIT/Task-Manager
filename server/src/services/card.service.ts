@@ -38,7 +38,7 @@ export const createCardService = async (userId : number, boardId : number, listI
         }
     })
 
-    let newPosition = cardCount.length > 0 ? cardCount.length + 1 : 0;
+    let newPosition = cardCount.length > 0 ? cardCount[0].position + 1 : 0;
 
     try{
         const cardCreated = await prisma.card.create({
@@ -155,6 +155,56 @@ export const patchCardService = async (userId : number, boardId : number, listId
     }
 }
 
+export const checklistCardService = async (boardId : number, listId : number, cardId : number) => {
+
+    const cardcheckSchema = z.object({
+        boardId :  z.number(),
+        listId : z.object(),
+        cardId : z.object()
+    })
+
+    const schemaResult = cardcheckSchema.safeParse({boardId, listId, cardId})
+
+    if(!schemaResult){
+        return {error : true, message : "enter valid details"}
+    }const existingList = await prisma.list.findUnique({
+        where : {
+            boardId,
+            id : listId
+        }
+    })
+
+    if(!existingList){
+        return {error : true, message : "board not found"}
+    }else{
+        const existingCard = await prisma.card.findUnique({
+            where : {
+                id : cardId,
+                listId
+            }
+        })
+
+        if(!existingCard){
+            return {error : true, message : "Card not found"}
+        }
+
+        try {
+            const cardPatched = await prisma.card.update({
+                data : {
+                    checklists : true
+                },
+                where : {
+                    id : cardId,
+                    listId
+                }
+            })
+
+            return {error : false , message : "card updated " + cardPatched.task }
+        }catch (e){
+            return {error : true, message : "DB Internal error " + (e as Error).message}
+        }
+    }
+}
 
 
 export const deleteCardService = async (userId : number, boardId : number, listId : number, cardId : number) => {

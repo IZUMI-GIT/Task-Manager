@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteCard = exports.patchCard = exports.getCards = exports.createCard = void 0;
+exports.deleteCard = exports.patchCardCheckList = exports.patchCardTitle = exports.getCards = exports.createCard = void 0;
 const card_service_1 = require("../services/card.service");
 const createCard = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { userId, task } = req.body;
@@ -45,7 +45,7 @@ const getCards = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.getCards = getCards;
-const patchCard = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const patchCardTitle = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { userId, task } = req.body;
     const boardId = Number(req.params.boardId);
     const listId = Number(req.params.listId);
@@ -62,7 +62,24 @@ const patchCard = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         });
     }
 });
-exports.patchCard = patchCard;
+exports.patchCardTitle = patchCardTitle;
+const patchCardCheckList = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const boardId = Number(req.params.boardId);
+    const listId = Number(req.params.listId);
+    const cardId = Number(req.params.id);
+    const result = yield (0, card_service_1.checklistCardService)(boardId, listId, cardId);
+    if (result.error) {
+        return res.status(400).json({
+            message: result.message
+        });
+    }
+    else {
+        return res.status(200).json({
+            message: result.message
+        });
+    }
+});
+exports.patchCardCheckList = patchCardCheckList;
 const deleteCard = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { userId } = req.body;
     const boardId = Number(req.params.boardId);

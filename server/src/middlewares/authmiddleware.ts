@@ -5,7 +5,7 @@ import { config } from "../config"
 
 let jwtSecret = config.jwtSecret;
 
-function userMiddleware(req :Request , res : Response, next : NextFunction) {
+function authMiddleware(req :Request , res : Response, next : NextFunction) {
     const jwtToken = req.cookies.token;
     console.log(jwtToken)
 
@@ -26,4 +26,4 @@ function userMiddleware(req :Request , res : Response, next : NextFunction) {
     }
 }
 
-export default userMiddleware;
+export default authMiddleware;
