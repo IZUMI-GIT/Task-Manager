@@ -15,6 +15,7 @@ const setTokenAndCookie = (res : Response, userId : number) => {
             httpOnly : true,
             secure: process.env.NODE_ENV === "production", // ✅ secure in production
             sameSite: "lax", // optional but good for CSRF protection
+            maxAge : 7*24*60*60*1000 // 7 days in ms
         });
 }
 
@@ -123,7 +124,7 @@ export const postSignin = async (req : Request, res : Response) => {
                 message : "User logged in",
                 user : {
                     id : user.id,
-                    userName : user.email,
+                    userName : user.userName,
                     email
                 }
             })

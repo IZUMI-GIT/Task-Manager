@@ -1,22 +1,41 @@
 import { useState } from "react"
 
-let globalSetIsOpen: (val: boolean) => void
-
 export function useCreateBoardModal() {
   const [isOpen, setIsOpen] = useState(false)
-  globalSetIsOpen = setIsOpen
+
+  const openBoard = () => setIsOpen(true);
+  const closeBoard = () => setIsOpen(false)
 
   return {
     isOpen,
-    open: () => setIsOpen(true),
-    close: () => setIsOpen(false)
+    openBoard,
+    closeBoard
   }
 }
 
-export function openCreateBoardModal() {
-  globalSetIsOpen?.(true)
-}
 
-export function closeCreateBoardModal() {
-  globalSetIsOpen?.(false)
+export function useAuthModal() {
+
+  const [isOpen, setIsOpen] = useState(false);
+  const [mode, setMode] = useState<'signin'|'signup'>('signin')
+
+  const openSignIn = () => {
+    setIsOpen(true);
+    setMode('signin')
+  }
+
+  const openSignUp = () => {
+    setIsOpen(true);
+    setMode('signup')
+  }
+
+  const closeModal = () => {setIsOpen(false)}
+
+  return{
+    isOpen,
+    mode,
+    openSignIn,
+    openSignUp,
+    closeModal
+  }
 }

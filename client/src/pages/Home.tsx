@@ -1,3 +1,4 @@
+import { SignUpButton } from "../features/auth/SignUpButton"
 
 
 export const Home = ()=>{
@@ -11,11 +12,9 @@ export const Home = ()=>{
                 Organize. Track. Succeed.
             </h3>
             <div>
+                <SignUpButton />
                 <button>
                     Sign In
-                </button>
-                <button>
-                    Sign Up
                 </button>
             </div>
         </div>

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { closeCreateBoardModal } from '../../hooks/hooks';
+import { useCreateBoardModal } from "../../hooks/hooks";
 
 type createBoardModalProps = {
     onCreate : (title :string) => void
@@ -8,6 +8,7 @@ type createBoardModalProps = {
 export function CreateBoardModal({onCreate} : createBoardModalProps) {
 
     const [title, setTitle] = useState("")
+    const {closeBoard} = useCreateBoardModal();
 
 
     const handleSubmit = (e : React.ChangeEvent<HTMLInputElement>) => {
@@ -53,7 +54,7 @@ export function CreateBoardModal({onCreate} : createBoardModalProps) {
                 </button>
                 <button
                     type="button"
-                    onClick={closeCreateBoardModal}
+                    onClick={closeBoard}
                     className="border border-gray-300 rounded-lg font-semibold px-4 py-2 hover:bg-gray-200 transition"
                 >
                     Cancel

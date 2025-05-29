@@ -1,14 +1,16 @@
 import { memo, useState } from "react"
-import { closeCreateBoardModal, useCreateBoardModal } from "../../hooks/hooks"
 import { BoardItem } from "./BoardItem"
 import { CreateBoardButton } from "./CreateBoardButton"
 import { CreateBoardModal } from "./CreateBoardModal"
 import { Board } from "../../types/types"
 import axios from "axios"
+import { useCreateBoardModal } from "../../hooks/hooks"
 
 
 
 export const BoardList = memo(() => {
+
+    const {isOpen, closeBoard} = useCreateBoardModal()
 
     const [boards, setBoards] = useState<Board[]>([
         {
@@ -49,13 +51,11 @@ export const BoardList = memo(() => {
             alert(response.data.message)
             console.log(response.data)
             getBoards();
-            closeCreateBoardModal();
+            closeBoard();
         }catch(e){
             console.error('Error:', e)
         }
     }
-
-    const {isOpen} = useCreateBoardModal()
 
     return (
         <div>
