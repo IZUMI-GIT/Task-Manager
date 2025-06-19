@@ -8,12 +8,12 @@ function App() {
     <>
       <BoardList />
         <BrowserRouter>
-          <Routes>
-            <Route path='/' element={<Home />} />
+          {/* <Routes> */}
+            {/* <Route path='/' element={<Home />} />
             <Route path='/sigin' element={<SignIn />} />
             <Route path='/sigout' element={<Signout />} />
             <Route path='/dashboard' element={<Dashboard />} />
-          </Routes>
+          </Routes> */}
         </BrowserRouter>
     </>
   )
